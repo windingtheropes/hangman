@@ -1,0 +1,14 @@
+C:\Users\jaand\OneDrive\Documents\dev\hangman\obj\Debug\net7.0\hangman.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jaand\OneDrive\Documents\dev\hangman\obj\Debug\net7.0\hangman.AssemblyInfoInputs.cache
+C:\Users\jaand\OneDrive\Documents\dev\hangman\obj\Debug\net7.0\hangman.AssemblyInfo.cs
+C:\Users\jaand\OneDrive\Documents\dev\hangman\obj\Debug\net7.0\hangman.csproj.CoreCompileInputs.cache
+C:\Users\jaand\OneDrive\Documents\dev\hangman\bin\Debug\net7.0\hangman.exe
+C:\Users\jaand\OneDrive\Documents\dev\hangman\bin\Debug\net7.0\hangman.deps.json
+C:\Users\jaand\OneDrive\Documents\dev\hangman\bin\Debug\net7.0\hangman.runtimeconfig.json
+C:\Users\jaand\OneDrive\Documents\dev\hangman\bin\Debug\net7.0\hangman.dll
+C:\Users\jaand\OneDrive\Documents\dev\hangman\bin\Debug\net7.0\hangman.pdb
+C:\Users\jaand\OneDrive\Documents\dev\hangman\obj\Debug\net7.0\hangman.dll
+C:\Users\jaand\OneDrive\Documents\dev\hangman\obj\Debug\net7.0\refint\hangman.dll
+C:\Users\jaand\OneDrive\Documents\dev\hangman\obj\Debug\net7.0\hangman.pdb
+C:\Users\jaand\OneDrive\Documents\dev\hangman\obj\Debug\net7.0\hangman.genruntimeconfig.cache
+C:\Users\jaand\OneDrive\Documents\dev\hangman\obj\Debug\net7.0\ref\hangman.dll
