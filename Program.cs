@@ -1,24 +1,65 @@
 ﻿using System;
+using System.ComponentModel;
 class Program {
-    public static void Main(string[] args) {
-        Hangman hangman = new(5);
-        hangman.Start();
+    public static void Main() {
+        Console.WriteLine("Welcome to hangman!");
+        
+        int limit = Helper.IntInput("Enter the guess limit: ", false, 5);
+        Console.WriteLine($"Limit of guesses is now set to {limit}.");
+        
+        int gamemode = Helper.IntInput("Select the gamemode:\n(1) Singleplayer (2) Multiplayer", true, 1);
+        if(gamemode == 2) {
+            string word = Helper.Input("Player 2, enter the secret word: ", false);
+            Hangman h = new(limit, word);
+            h.Start();
+        } 
+        else {
+            string[] bank = {"hello", "arcade", "computer"};
+            Random random = new();
+            Hangman h = new(limit, bank[random.Next(0, bank.Length)]);
+            h.Start();
+        }
     }
 }
 
 class Helper {
     public static string alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+    public static string FormatLettersGuessed(string lettersGuessed) {
+        string formattedString = "";
+        foreach(char letter in alphabet.ToCharArray()) {
+            if(lettersGuessed.ToCharArray().Contains(letter)) {
+                formattedString = $"{formattedString} ({letter})";
+            }
+            else {
+                formattedString = $"{formattedString} {letter}";
+            }
+        }
+        return formattedString;
+    }
     // Add a string, 'a', to another string, 'b', without double letters
     public static string ExclusiveAdd(string a, string b) {
-        foreach(char aChar in a.ToCharArray()) {
-            if(findCharInString(b, aChar)) continue;
-            else if(findCharInString(alphabet, aChar)) b = $"{b}{aChar}";
-            else continue;
+        foreach(char aC in a.ToCharArray()){
+            if(b.ToCharArray().Contains(aC)) continue;
+            else b = $"{b}{aC}";
         }
         return b;
     }
+    public static int IntInput(string prompt, bool newline, int d = -1) {
+        string? stringInput = Input(prompt, newline);
+        int integerInput = d;
+        try {
+            integerInput = int.Parse(stringInput);
+        }
+        catch {
+            Console.WriteLine("Input is not an integer.");
+            IntInput(prompt, newline, d);
+        }
+        return integerInput;
+    }
+
     // Ask for input with a prompt, and return it as a string
-    public static string Input(string prompt, bool newline) {
+    public static string Input(string prompt, bool newline = false) {
         if(newline == true) {
             Console.WriteLine(prompt);
         }
@@ -29,36 +70,23 @@ class Helper {
         if(userInput == "" || userInput == null) return Input(prompt, newline);
         else return userInput;
     }
-
-    // Test if a character 'i' is present in string 's'
-    public static bool findCharInString(string s, char i) {
-        foreach(char c in s.ToCharArray()) {
-            if(c == i) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
 class Hangman {
-    private string lettersGuessed = string.Empty;
+    private string lettersGuessed = "";
     private int guessesRemaining;
     private int guesses;
     private string word = string.Empty;
-    private string[] bank = {"hello", "arcade", "computer"};
 
-    public Hangman(int g) {
-        Random random = new();
-
+    public Hangman(int g, string w) {
         guesses = g;
         guessesRemaining = guesses;
-        word = bank[random.Next(0,bank.Length)];;
+        word = w;
     }
 
-    private bool checkWord() {
+    private bool CheckWord() {
         string guessWord = "";
         foreach(char i in word.ToCharArray()) {
-                if(Helper.findCharInString(lettersGuessed, i) == true) {
+                if(lettersGuessed.ToCharArray().Contains(i) == true) {
                         guessWord = $"{guessWord}{i}";
                 }
                 else {
@@ -69,14 +97,13 @@ class Hangman {
         else return false;
     }
 
-    private void showHint() {
+    private void ShowHint() {
         string hintWord = string.Empty;
-
-        Console.WriteLine($"Letters guessed: {lettersGuessed}");
+        Console.WriteLine(Helper.FormatLettersGuessed(lettersGuessed));
         foreach(char wordChar in word.ToCharArray()) {
-            if(Helper.findCharInString(Helper.alphabet, wordChar) == true) {
+            if(Helper.alphabet.ToCharArray().Contains(wordChar) == true) {
                 // Check if the wordChar has been guessed
-                if(Helper.findCharInString(lettersGuessed, wordChar) == true) {
+                if(lettersGuessed.ToCharArray().Contains(wordChar) == true) {
                     hintWord = $"{hintWord}{wordChar}";
                 }
                 else {
@@ -91,7 +118,7 @@ class Hangman {
         Console.WriteLine(hintWord);
     }
 
-    private void processGuess() {
+    private void ProcessGuess() {
         // Ask the user for their guess, will take the first character if multiple are given, or the whole word if it's guessed correctly
         string stringGuess = Helper.Input("Enter your letter guess: ", false).ToLower();
         if(stringGuess == word) {
@@ -101,12 +128,12 @@ class Hangman {
         }
         char guess = stringGuess.ToLower().ToCharArray()[0];
         // If guess is not in the alphabet, ask for it again
-        if(Helper.findCharInString(Helper.alphabet, guess)) {
+        if(Helper.alphabet.ToCharArray().Contains(guess)) {
             // Check whether or not the letter has been guessed already, if not, add it to lettersguessed
-            if(Helper.findCharInString(lettersGuessed, guess) == false) {
+            if(lettersGuessed.ToCharArray().Contains(guess) == false) {
                 lettersGuessed = $"{lettersGuessed}{guess}";
                 // Check whether or not the guessed character is in the word; notify the user. Subtract from the guesses remaining if the guess is incorrect.
-                if(Helper.findCharInString(word, guess)) {
+                if(word.ToCharArray().Contains(guess)) {
                     Console.WriteLine($"{guess} is in the word!");
                 }
                 else {
@@ -116,32 +143,55 @@ class Hangman {
             }
             else {
                 Console.WriteLine($"{guess} has already been guessed.");
-                processGuess();
+                ProcessGuess();
             }
         }
         else {
             Console.WriteLine("Guess is not a letter.");
-            processGuess();
+            ProcessGuess();
         }
-        
+        Console.Clear();
     }
 
-    private void welcome() {
+    private void Welcome() {
+        Console.Clear();
         Console.WriteLine("Welcome to hangman!");
-        Console.WriteLine("Try to guess the secret word! \n");
-        showHint();
+        Console.WriteLine("Try to guess the secret word!");
+        Thread.Sleep(1000);
+        Console.Clear();
+
+        ShowHint();
+    }
+
+    private void PlayAgain() {
+        Thread.Sleep(2000);
+        Console.Clear();
+
+        bool yes = Helper.Input("Would you like to play again? (y/n) ", false).ToLower() == "y";
+        if(yes) {
+            Console.Clear();
+            Program.Main();
+        }
+        else {
+            Console.Clear();
+            Console.WriteLine("Goodbye.");
+        }
     }
     public void Start() {
-        welcome();
-        while (guessesRemaining > 0 && checkWord() == false) {
-            processGuess();
-            showHint();
+        Welcome();
+        
+        while (guessesRemaining > 0 && CheckWord() == false) {
+            ProcessGuess();
+            ShowHint();
         }
+
         if(guessesRemaining == 0) {
             Console.WriteLine("You ran out of guesses!");
         }
-        if(checkWord() == true) {
+        if(CheckWord() == true) {
             Console.WriteLine("You guessed the word!");
         }
+
+        PlayAgain();
     }
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "18Rh46oKZ9aqR5tVR7F34adTC1G1L0hHVWmZz3r24U1+qOAGLpCupcv2GFgbE1rjFQKaY3SYCGXeXEvebTqOMg==",
+  "dgSpecHash": "089nYOIG66bRZXTMzwrBGTnrYlL8rsMWfj4jzYq/TnWm+As44OqFGWA5mYNNDDO/pp2XAuF8HCvslylLL9aNkA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\jaand\\OneDrive\\Documents\\dev\\hangman\\hangman.csproj",
+  "projectFilePath": "/workspaces/hangman/hangman.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
